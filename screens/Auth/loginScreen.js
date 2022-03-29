@@ -1,11 +1,24 @@
 import React from 'react';
 import {Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
+import FormInput from '../../components/FormInput';
+import FormButton from '../../components/FormButton';
+import auth from '@react-native-firebase/auth';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation, route}) => {
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
+  const {userType} = route.params;
+
+  const loginHandler = () => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('SignIn');
+      })
+      .catch(e => {
+        console.log('Login Error', e);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -26,13 +39,15 @@ const LoginScreen = ({navigation}) => {
         secureTextEntry={true}
       />
 
-      <FormButton
-        buttonTitle="Login"
-        onPress={() => navigation.navigate('Register')}
-      />
+      <FormButton buttonTitle="Login" onPress={() => loginHandler()} />
 
       <Text>You Don't Have An Account ?</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Register', {
+            userType,
+          })
+        }>
         <Text style={{color: 'blue'}}>Create Account</Text>
       </TouchableOpacity>
     </View>

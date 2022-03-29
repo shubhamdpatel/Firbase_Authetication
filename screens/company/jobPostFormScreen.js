@@ -1,6 +1,5 @@
 import React from 'react';
 import {Alert, StyleSheet, Text, View} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
 
@@ -17,28 +16,7 @@ const JobPostFormScreen = ({navigation}) => {
   // const [state, setState] = React.useState(null);
   const [description, setDescription] = React.useState(null);
 
-  const postSubmit = () => {
-    firestore()
-      .collection('Jobs')
-      .add({
-        companyId: 'SBM',
-        title,
-        type,
-        gender,
-        education,
-        salary,
-        exprerience,
-        description,
-        postTime: firestore.Timestamp.fromDate(new Date()),
-      })
-      .then(() => {
-        console.log('Job Poseted!');
-        Alert.alert('Job Posted!', 'Your Job Posted Successfully.');
-      })
-      .catch(error => {
-        console.log('Something Wrong to post job', error);
-      });
-  };
+  const postSubmit = () => {};
 
   return (
     <View style={styles.container}>
